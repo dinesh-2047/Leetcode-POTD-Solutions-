@@ -1,0 +1,52 @@
+
+// 1400. Construct K Palindrome Strings
+// Given a string s and an integer k, return true if you can use all the characters in s to construct k 
+// palindrome strings
+//  or false otherwise.
+
+ 
+
+// Example 1:
+
+// Input: s = "annabelle", k = 2
+// Output: true
+// Explanation: You can construct two palindromes using all characters in s.
+// Some possible constructions "anna" + "elble", "anbna" + "elle", "anellena" + "b"
+// Example 2:
+
+// Input: s = "leetcode", k = 3
+// Output: false
+// Explanation: It is impossible to construct 3 palindromes using all the characters of s.
+// Example 3:
+
+// Input: s = "true", k = 4
+// Output: true
+// Explanation: The only possible solution is to put each character in a separate string.
+
+
+class Solution {
+public:
+    bool canConstruct(string s, int k) {
+        int n = s.length();
+        
+        if(n==k) return true; // if length of string == k so we can treat each char individually as  a palindrome  
+        if(n<k) return false ; //if length of string  are less than k  then not possible to make palindrome equal to k 
+
+        vector<int>freq(26,0); /// to store freq of each char of s because odd freq character controlling the palindromes 
+
+        for(int i= 0; i<n; i++){
+           int index = s[i] - 'a';
+           freq[index]++;
+
+        }
+        
+          
+          int countOdd = 0;
+        for(int i = 0; i<26; i++){
+            if(freq[i]%2==1) countOdd++;   // if freq of any character is odd then increment countOdd bu one .
+        }
+        if(countOdd>k) return false;  // if countOdd is greater then k then return false because if the odd freq characters are greater then k so it is not possible to make palindrome equal to k ..
+
+        else return true; 
+    }
+};
