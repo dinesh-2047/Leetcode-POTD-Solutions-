@@ -1,0 +1,107 @@
+2493. Divide Nodes Into the Maximum Number of Groups  
+
+
+
+Code-
+class Solution {
+public:
+int bfs (unordered_map<int, list<int>>&adj, int currNode, int n ){
+    queue<int>q;
+      vector<bool>visited(n+1, false);
+    q.push(currNode);
+    visited[currNode] = true;
+
+    int level = 1; // level is nothing but max group in that component
+    while(!q.empty()){
+        int N = q.size();
+
+        while(N--){
+            int curr = q.front();
+            q.pop();
+
+            for(auto &nbr : adj[curr]){
+                if(visited[nbr]) continue;
+
+                q.push(nbr);
+                visited[nbr] = true;
+            }
+        }
+
+        level++; //ek level extra bdh ja rha h 
+    }
+    return level - 1;
+}
+
+
+
+
+bool isBipartite(unordered_map<int,list<int>>&adj , int node, vector<int>&colors, int currentColor){ 
+
+     colors[node] = currentColor ;
+
+     for(auto &nbr : adj[node]){
+        if(colors[nbr] == colors[node]) return false;
+
+        if(colors[nbr] == -1){
+            if(isBipartite(adj , nbr, colors, 1- currentColor)==false) return false;
+
+        }
+     }
+     return true; 
+}
+
+
+ int getMaxFromEachComponent(unordered_map<int,list<int>>&adj , int currNode , vector<bool>&visited, vector<int>&levels){
+    int maxGroup = levels[currNode];
+    visited[currNode] = true;
+
+    for(auto &nbr  : adj[currNode]){
+        if(!visited[nbr]){
+            maxGroup = max(maxGroup , getMaxFromEachComponent(adj, nbr, visited, levels));
+        }
+    }
+   return maxGroup;
+ }
+
+
+
+    int magnificentSets(int n, vector<vector<int>>& edges) {
+        
+        unordered_map<int , list<int>>adj;
+
+        for(int i = 0 ; i<edges.size(); i++){
+            int u = edges[i][0];
+            int v = edges[i][1];
+
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+
+        // bipartite check 
+        vector<int>colors(n+1, -1);
+        for(int node = 1; node<=n; node++){
+             if(colors[node] == -1){
+                if(isBipartite(adj, node ,colors , 1) == false) return -1 ;
+
+             }
+        }
+        //BFS krke max level nikalo for each node 
+      
+            vector<int>levels(n+1, 0);
+
+            for(int node = 1 ; node <=n ; node++){
+                levels[node] = bfs(adj , node,  n);
+            }
+        
+
+        int maxGroupEachComponent = 0;
+        vector<bool>visited(n+1, false);
+        for(int node = 1; node <=n; node++){
+            if(!visited[node]){
+                maxGroupEachComponent += getMaxFromEachComponent(adj, node, visited, levels);
+            }
+        }
+
+        return maxGroupEachComponent;
+    }
+};
