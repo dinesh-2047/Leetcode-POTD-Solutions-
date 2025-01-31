@@ -1,0 +1,61 @@
+1462. Course Schedule IV
+
+// Code 
+
+class Solution {
+public:
+    vector<bool> checkIfPrerequisite(int numCourses, vector<vector<int>>& prerequisites, vector<vector<int>>& queries) {
+          int n = prerequisites.size();
+
+        unordered_map<int, list<int>>adj;
+        vector<int>indegree(numCourses, 0);
+
+        for(int i = 0 ; i<n; i++){
+            int u = prerequisites[i][0];
+            int v = prerequisites[i][1];
+
+            adj[u].push_back(v);
+            indegree[v]++;
+        }
+
+       
+
+        queue<int>q;
+        
+        unordered_map<int,unordered_set<int>>mp;
+        for(int i = 0 ; i<numCourses; i++){
+            if(indegree[i] == 0){
+                q.push(i);
+            }
+        }
+
+        while(!q.empty()){
+            auto node =  q.front();
+            q.pop();
+
+            for(auto &nbr : adj[node]){
+                mp[nbr].insert(node);
+                for(auto& preq : mp[node]){
+                    mp[nbr].insert(preq);
+                }
+                indegree[nbr]--;
+                if(indegree[nbr] == 0){
+                    q.push(nbr);
+                }
+            }
+        }
+
+        int Q =queries.size();
+
+    vector<bool>ans(Q,0);
+    for(int i = 0 ; i<Q; i++){
+        int src = queries[i][0];
+        int dest = queries[i][1];
+
+        bool reachable = mp[dest].contains(src);
+        ans[i] = reachable;
+    }
+    return ans;
+        
+    }
+};
