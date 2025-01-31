@@ -1,0 +1,47 @@
+2948. Make Lexicographically Smallest Array by Swapping Elements
+
+
+Code 
+
+class Solution {
+public:
+    vector<int> lexicographicallySmallestArray(vector<int>& nums, int limit) {
+        int n = nums.size();
+
+        vector<int>vec(begin(nums), end(nums));
+
+        sort(begin(vec), end(vec));
+
+        int groupNum = 0;
+        unordered_map<int, int>numToGroup; //kon sa number kis group  me gya h 
+        numToGroup[vec[0]] = groupNum;
+
+        unordered_map<int, list<int>>groupToList; // kis group me kitne number h 
+        groupToList[groupNum].push_back(vec[0]);
+
+
+        for(int i = 1; i<n; i++){
+             if(abs(vec[i] - vec[i-1]) > limit){
+                groupNum +=1;
+             }
+
+             numToGroup[vec[i]] = groupNum;
+
+             groupToList[groupNum].push_back(vec[i]);
+        }
+
+  //build the answer - merge the group 
+
+       for(int i = 0 ; i<n; i++){
+           int num = nums[i];
+           int group = numToGroup[num];
+
+           //smallest available number in this group 
+           nums[i] = *groupToList[group].begin(); // use ho gya to delete kr do used element ko 
+            groupToList[group].pop_front();
+       }
+
+       return nums ;
+
+    }
+};
