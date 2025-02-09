@@ -59,25 +59,28 @@ class Solution {
     //T.C : O(n)
     //S.C : O(n)
     class Solution {
-    public:
-        long long countBadPairs(vector<int>& nums) {
-            int n = nums.size();
-    
-            long long result = 0;
-            unordered_map<int, int> mp;
-    
-            for(int i = 0; i < n; i++) {
-                int diff = nums[i] - i;
-    
-                int totalPairsTillIndex = i;
-                int goodPairs           = mp[diff];
-    
-                result += (totalPairsTillIndex - goodPairs);
-    
-                mp[diff]++; 
+        public:
+            long long countBadPairs(vector<int>& nums) {
+                long long ans = 0 ; 
+                int n = nums.size();
+        
+                for(int i = 0 ; i<n; i++){
+                    nums[i] = nums[i]-i;
+                }
+        
+               unordered_map<int , int>mp;
+        
+                for(int j = 0 ;j<n; j++){
+                   int diff = nums[j];
+        
+                   int goodPairs = mp[nums[j]];
+        
+                   int totalPairsInPast = j; 
+                   ans+= totalPairsInPast - goodPairs;
+                   mp[nums[j]]++;
+                }
+                return ans;
+        
+        
             }
-    
-            return result;
-        }
-    };
-    
+        };
