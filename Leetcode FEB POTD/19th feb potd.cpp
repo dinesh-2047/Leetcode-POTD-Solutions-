@@ -37,3 +37,44 @@ class Solution {
             else return ans[k-1];
         }
     };
+
+
+
+    // Approach 2 
+    class Solution {
+        public:
+        void  backtrack(int n , int &count , string &curr, string &ans, int k) {
+            if(curr.length()==n) {
+            count++;
+            if(count == k) {
+                ans = curr; 
+            }
+                return ; 
+            }
+        
+            for(char ch = 'a'; ch<='c'; ch++){
+        
+                if(!curr.empty () && ch==curr.back()) continue; 
+        
+                curr.push_back(ch);
+        
+                backtrack(n , count, curr, ans , k  );
+        
+        
+                curr.pop_back();
+        
+        
+                
+            }
+        }
+            string getHappyString(int n, int k) {
+               string ans = "";
+        
+               string curr = "";
+               int count = 0; 
+        
+                backtrack(n , count, curr, ans , k  );
+        
+               return ans; 
+            }
+        };
