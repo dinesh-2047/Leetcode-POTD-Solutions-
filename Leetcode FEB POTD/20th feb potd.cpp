@@ -47,3 +47,41 @@ class Solution {
             return ans; // This line is redundant but added for safety
         }
 };
+
+
+
+// Approach 3: backtracking 
+
+
+class Solution {
+    public:
+    bool backtrack(unordered_set<string>&st , string &curr, int n ){
+        if(curr.size() == n ){
+            if(st.find(curr) == st.end()) return true; 
+            return false; 
+        }
+    
+        curr.push_back('0');
+        if(backtrack(st, curr, n ) ) return true; 
+        curr.pop_back();
+    
+        curr.push_back('1');
+        if(backtrack(st, curr, n )) return true; 
+        curr.pop_back();
+    
+        return false; 
+    }
+        string findDifferentBinaryString(vector<string>& nums) {
+            int n = nums.size();
+    
+            unordered_set<string>st(begin(nums), end(nums));
+    
+            string curr =  "";
+    
+            backtrack (st, curr, n );
+    
+            return curr; 
+    
+            
+        }
+    };
