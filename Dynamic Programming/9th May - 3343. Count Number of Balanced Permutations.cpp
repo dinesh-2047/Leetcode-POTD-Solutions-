@@ -1,6 +1,43 @@
 // 3343. Count Number of Balanced Permutations
 
 
+
+/*
+✨ Today's LeetCode POTD: Count Number of Balanced Permutations (3343) 🚀
+
+⁉️ Problem Statement:
+🔹 You are given a string num. A string of digits is called balanced if the sum of the digits at even indices is equal to the sum of the digits at odd indices.
+🔹 Return the number of distinct permutations of num that are balanced. Since the answer may be very large, return it modulo 10⁹ + 7.
+
+🔷 Approach I Used:
+
+💎 Approach: Recursive DP + Combinatorics
+🔹 Digit Frequency: Count the frequency of each digit in the input string.
+🔹 Factorials & Modular Inverses: Precompute factorials and their modular inverses to handle permutations with duplicate digits efficiently.
+🔹 Dynamic Programming:
+  - Define a recursive function dfs(i, j, a, b) where:
+    - i is the current digit being considered (0 to 9).
+    - j is the remaining sum needed for digits at odd indices.
+    - a is the number of positions left at odd indices.
+    - b is the number of positions left at even indices.
+  - At each step, distribute the available count of digit i between odd and even positions, ensuring the sum at odd indices reaches the required value.
+  - Use memoization to store intermediate results and avoid redundant calculations.
+🔹 Final Calculation: The answer is obtained by calling dfs(0, total_sum / 2, n / 2, (n + 1) / 2) where n is the length of num and total_sum is the sum of all digits in num.
+
+📌 Key Concepts Used:
+✔️ Digit Frequency Counting
+✔️ Factorials and Modular Inverses
+✔️ Recursive Dynamic Programming with Memoization
+✔️ Combinatorics for Permutations with Duplicates
+✔️ Modular Arithmetic
+
+
+
+
+*/
+
+
+
 class Solution {
 public:
     int n;
