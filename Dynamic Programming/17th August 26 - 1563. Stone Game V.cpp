@@ -43,6 +43,3 @@ int solve(vector<int> &stoneValue, int i , int j){
     }
 };
 
-//1 2 3 4 5 10
-// 1 3 6 10 15 25
-//   i    k    j  
